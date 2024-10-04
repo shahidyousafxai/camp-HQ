@@ -7,8 +7,8 @@ export const SocialIcon = ({ children, color, onClick }) => {
       display={"flex"}
       alignItems={"center"}
       justifyContent={"center"}
-      width={"30px"}
-      height={"30px"}
+      width={"40px"}
+      height={"40px"}
       bgcolor={color}
       borderRadius={"6px"}
       onClick={onClick}

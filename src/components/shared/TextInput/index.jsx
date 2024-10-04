@@ -12,16 +12,13 @@ export const TextInput = ({
   label,
   placeholder,
   error,
+  forgotPassword,
   autoComplete,
 }) => {
   return (
     <Box>
       {/* Label */}
-      <Box
-        display={'flex'}
-        justifyContent={'space-between'}
-        gap={2}
-      >
+      <Box display={'flex'} justifyContent={'space-between'} gap={2}>
         <Typography
           htmlFor={id}
           fontSize={'12px'}
@@ -31,24 +28,18 @@ export const TextInput = ({
         >
           {label}
         </Typography>
-        {type === 'password' ? (
-          <Typography
-            fontSize={'12px'}
-            color='primary.main'
-            textAlign={'right'}
-            onClick={() => console.log('Forgot Password')}
-          >
-            Forgot Password?
-          </Typography>
-        ) : (
-          <Typography
-            fontSize={'12px'}
-            color='primary.danger'
-            textAlign={'right'}
-          >
-            {error}
-          </Typography>
-        )}
+        {type === 'password'
+          ? forgotPassword && (
+              <Typography
+                fontSize={'12px'}
+                color='primary.main'
+                textAlign={'right'}
+                onClick={() => console.log('Forgot Password')}
+              >
+                Forgot Password?
+              </Typography>
+            )
+          : null}
       </Box>
 
       {/* Input Field */}
@@ -81,14 +72,11 @@ export const TextInput = ({
           },
         }}
       />
-      {type === 'password' ? (
-        <Typography
-          fontSize={'12px'}
-          color='primary.danger'
-        >
+      {error ? (
+        <Typography fontSize={'12px'} color='primary.danger'>
           {error}
         </Typography>
       ) : null}
-    </Box >
-  )
+    </Box>
+  );
 };
