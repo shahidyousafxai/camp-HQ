@@ -1,6 +1,8 @@
+// Library import
 import React from 'react';
 import { useState } from 'react';
-import { Box, Typography, FormControl } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+// Local import
 import {
   TextInput,
   CustomButton,
@@ -8,50 +10,34 @@ import {
   CustomDivider,
   CustomCheckbox,
   CustomLink,
+  Spinner
 } from '../../../components/shared';
-import {
-  FacebookIcon,
-  TwitterIcon,
-  MailIcon,
-  GitHubIcon,
-} from '../../../assets/Icons';
 
 const Login = () => {
-  const socialLinks = [
-    {
-      id: 1,
-      name: 'facebook',
-      color: '#3B5998',
-      icon: <FacebookIcon height={'25px'} width={'25px'} />,
-    },
-    {
-      id: 2,
-      name: 'twitter',
-      color: '#00ACEE',
-      icon: <TwitterIcon height={'25px'} width={'25px'} />,
-    },
-    {
-      id: 3,
-      name: 'mail',
-      color: '#DB3236',
-      icon: <MailIcon height={'25px'} width={'25px'} />,
-    },
-    {
-      id: 4,
-      name: 'githab',
-      color: '#211F1F',
-      icon: <GitHubIcon height={'25px'} width={'25px'} />,
-    },
-  ];
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
 
-  const handleSocial = (name) => {
-    name === 'facebook' && console.log('This is facebook icon');
-    name === 'twitter' && console.log('This is twitter icon');
-    name === 'mail' && console.log('This is mail icon');
-    name === 'githab' && console.log('This is githab icon');
+  // Checkbox state
+  const [checked, setChecked] = useState(false);
+
+  // Loading state
+  const [loading, setLoading] = useState(false);
+
+  // Login button disabled
+  const disabled =
+    formData.email === '' || formData.password === '' ? true : false;
+
+  // Handle inputchange function
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  const [checked, setChecked] = useState(false);
   return (
     <Box
       component={'form'}
@@ -63,12 +49,12 @@ const Login = () => {
       marginX={'auto'}
       width={{ sm: '350px', lg: 'auto' }}
     >
-      <Box paddingBottom={'5px'}>
+      <Box paddingBottom={'5px'} textAlign={{ xxs: 'center', lg: 'left' }}>
         <Typography
           variant='h5'
           color='primary.darkGray'
           fontWeight={'bold'}
-          sx={{ paddingBottom: '5px' }}
+          paddingBottom={'5px'}
         >
           Welcome to CampHQ!
         </Typography>
@@ -81,9 +67,18 @@ const Login = () => {
         name={'email'}
         label='Email'
         placeholder={'johndoe@gmail.com'}
+        onChange={handleInputChange}
+        value={formData.email}
       />
 
-      <TextInput type={'password'} label='Passwoard' />
+      <TextInput
+        type={'password'}
+        label='Password'
+        name={'password'}
+        placeholder={'Password'}
+        onChange={handleInputChange}
+        value={formData.password}
+      />
 
       <CustomCheckbox
         checked={checked}
@@ -91,33 +86,22 @@ const Login = () => {
         label={'Remember me'}
       />
 
-      <CustomButton variant={'contained'}>Login</CustomButton>
+      <CustomButton disabled={disabled} variant={'contained'}>
+        {loading ? (
+          <Spinner />
+        ) : (
+          <Typography>Login</Typography>
+        )}
+      </CustomButton>
 
-      <Typography
-        variant='subtitle'
-        color='primary.gray'
-        // sx={{ textWrap: 'nowrap' }}
-      >
+      <Typography variant='subtitle' color='primary.gray'>
         New on our platform?{'  '}
-        <CustomLink>Sign up</CustomLink>
+        <CustomLink href={'/signup'}>Sign up</CustomLink>
       </Typography>
 
       <CustomDivider>or</CustomDivider>
 
-      <Box
-        display='flex'
-        justifyContent='center'
-        alignContent='center'
-        gap={1}
-        marginTop={'5px'}
-        paddingBottom={5}
-      >
-        {socialLinks.map(({ id, color, icon, name }) => (
-          <SocialIcon key={id} color={color} onClick={() => handleSocial(name)}>
-            {icon}
-          </SocialIcon>
-        ))}
-      </Box>
+      <SocialIcon />
     </Box>
   );
 };

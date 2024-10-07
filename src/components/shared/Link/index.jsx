@@ -1,13 +1,16 @@
 import React from 'react';
-import Link from '@mui/material/Link';
-export const CustomLink = ({ children, href, underline }) => {
+import { useNavigate } from 'react-router-dom';
+import { Typography } from '@mui/material';
+export const CustomLink = ({ children, href, sx }) => {
+  const navigate = useNavigate();
   return (
-    <Link
-      href={href}
-      underline={'none' || underline}
-      sx={{ cursor: 'pointer', textWrap: 'nowrap' }}
+    <Typography
+      variant='base'
+      color='primary.main'
+      onClick={() => navigate(href)}
+      sx={{ cursor: 'pointer', textWrap: 'nowrap', ...sx }}
     >
       {children}
-    </Link>
+    </Typography>
   );
 };

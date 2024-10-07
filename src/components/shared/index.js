@@ -5,3 +5,4 @@ export { SocialIcon } from './SocialIcon';
 export { CustomDivider } from './Divider';
 export { CustomCheckbox } from './Checkbox'
 export { CustomLink } from './Link'
+export { Spinner } from './Spinner';

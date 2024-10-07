@@ -51,7 +51,7 @@ export const TextInput = ({
         autoComplete={type === 'password' ? 'password' : ''}
         name={name}
         value={value}
-        onChange={disabled ? onChange : null}
+        onChange={!disabled ? onChange : null}
         disabled={disabled}
         sx={{
           width: '100%',

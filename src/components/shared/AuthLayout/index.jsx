@@ -12,11 +12,11 @@ export const AuthLayout = ({ children }) => {
         justifyContent={'center'}s
         sx={{
           flex: 'auto',
+          // background: `conic-gradient(from -45deg at calc(100%/3) calc(100%/3), #E4E4ED 90deg, #0000 0), conic-gradient(from -135deg at calc(100%/3) calc(2*100%/3), #E4E4ED 90deg, #7367F0 0 135deg, #0000 0), conic-gradient(from 135deg at calc(2*100%/3) calc(2*100%/3), #E4E4ED 90deg, #7367F0 0 135deg, #0000 0), conic-gradient(from 45deg at calc(2*100%/3) calc(100%/3), #E4E4ED 90deg, #7367F0 0 135deg, #0000 0,#E4E4ED 0 225deg,#7367F0 0)`,
+          backgroundSize: "70px 70px"
         }}
       >
-        <Typography variant='h4' fontWeight={'medium'}>
-          Images
-        </Typography>
+        Images
       </Box>
 
       <Box
