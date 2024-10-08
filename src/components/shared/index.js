@@ -1,4 +1,5 @@
 export { AuthLayout } from './AuthLayout';
+export { PanelLayout } from './PanelLayout';
 export { TextInput } from './TextInput';
 export { CustomButton } from './Button';
 export { SocialIcon } from './SocialIcon';

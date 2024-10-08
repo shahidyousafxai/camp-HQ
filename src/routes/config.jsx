@@ -1,12 +1,22 @@
 import React from "react";
-import { AuthLayout } from "../components/shared";
+import { AuthLayout, PanelLayout } from "../components/shared";
 import Login from "../panel/Auth/Login"
 import SignUp from "../panel/Auth/SignUp";
 
 
 // SIDE MENU ROUTES
 export const sideMenuRoutes = [
-  {},
+  {
+    path: '/users',
+    moduleName: 'Users',
+    element: <PanelLayout>users</PanelLayout>,
+  },
+
+  {
+    path: '/chatroom',
+    moduleName: 'Chat Room',
+    element: <PanelLayout>Chat Room</PanelLayout>,
+  },
 ];
 
 
