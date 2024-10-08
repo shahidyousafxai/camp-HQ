@@ -139,7 +139,7 @@ const SignUp = () => {
       <CustomButton
         onClick={handleSubmit}
         variant={'contained'}
-        sx={{ marginTop: '5px' }}
+        sx={{ marginTop: '19px' }}
         disabled={disabled}
       >
         {loading ? <Spinner /> : <Typography>Sign up</Typography>}

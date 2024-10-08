@@ -10,7 +10,7 @@ import {
   CustomDivider,
   CustomCheckbox,
   CustomLink,
-  Spinner
+  Spinner,
 } from '../../../components/shared';
 
 const Login = () => {
@@ -29,7 +29,7 @@ const Login = () => {
   const disabled =
     formData.email === '' || formData.password === '' ? true : false;
 
-  // Handle inputchange function
+  // Handle input change function
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -87,11 +87,7 @@ const Login = () => {
       />
 
       <CustomButton disabled={disabled} variant={'contained'}>
-        {loading ? (
-          <Spinner />
-        ) : (
-          <Typography>Login</Typography>
-        )}
+        {loading ? <Spinner /> : <Typography>Login</Typography>}
       </CustomButton>
 
       <Typography variant='subtitle' color='primary.gray'>
