@@ -7,7 +7,8 @@ export const theme = createTheme({
       lightGray: '#D8D6DE',
       gray: '#6E6B7B',
       darkGray:'#5E5873',
-      danger: '#EA5455'
+      danger: '#EA5455',
+      halfWhite:'#7367F01F'
     },
   },
   breakpoints: {

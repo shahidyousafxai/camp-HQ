@@ -6,7 +6,7 @@ export const FacebookIcon = ({ width, height, ...props }) => (
     width={width || "1em"}
     height={height || "1em"}
     viewBox="0 0 24 24"
-    color="white"
+    color="currentColor"
     {...props}
   >
     <path

@@ -62,6 +62,7 @@ export const SocialIcon = () => {
           onClick={() => handleSocial(name)}
           sx={{ cursor: 'pointer' }}
           key={id}
+          color={'white'}
         >
           {icon}
         </Box>

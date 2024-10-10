@@ -1,277 +1,229 @@
+// Library import
 import React from 'react';
+import { useState, useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
-import { useState } from 'react';
 import { assets } from '../../../assets/Images';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import PersonIcon from '@mui/icons-material/Person';
 import { useLocation } from 'react-router-dom';
+import Avatar from '@mui/material/Avatar';
+// Local import
+import { sideMenuRoutes } from '../../../routes/config';
 
 export const PanelLayout = ({ children }) => {
-  const [sideMenu, setSideMenu] = useState(false);
-
   const navigate = useNavigate();
   const location = useLocation();
   const currentPath = location.pathname;
+  const currentPathName = sideMenuRoutes.find(
+    (item) => item.path === currentPath
+  )?.moduleName;
+
+  const [sideMenu, setSideMenu] = useState(
+    window.innerWidth >= 992 ? true : false
+  );
+
+  const handleResize = () => {
+    window.innerWidth >= 992 ? setSideMenu(true) : setSideMenu(false);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [window.innerWidth]);
 
   return (
-    <Box display={'flex'} alignItems={'center'} width={'100%'} height={'100vh'}>
+    <Box
+      display={'flex'}
+      alignItems={'center'}
+      width={'100%'}
+      height={'100vh'}
+      position={'relative'}
+    >
       <Box
         height={'100%'}
         alignItems={!sideMenu && 'center'}
-        width={sideMenu ? '600px' : { xxs: '80px', base: '350px' }}
+        width={sideMenu ? { xxs: '250px', base: '300px' } : '80px'}
         sx={{
           transition: 'width 0.4s',
         }}
+        position={{ xxs: 'absolute', base: 'relative' }}
+        top={'0px'}
+        bottom={'0px'}
+        left={'0px'}
+        bgcolor={'white'}
+        boxShadow={{xxs:sideMenu && '1px 0px 12px 1px rgba(150, 150, 150, 0.3)',base:'none'}}
       >
-        {/*Side menu Header For mobile screen  */}
+        {/*Side menu Header */}
         <Box
-          py={'25px'}
-          paddingX={sideMenu && '10px'}
-          display={!sideMenu && { xxs: 'flex', base: 'none' }}
-          justifyContent={'center'}
+          pt={'22px'}
+          pb={'25px'}
+          display={'flex'}
+          justifyContent={sideMenu ? 'space-between' : 'center'}
+          alignItems={'center'}
+          mx={sideMenu && '8px'}
+          position={'relative'}
+          my={{ xxs: 'auto', base: '20px' }}
         >
-          {sideMenu ? (
-            <Box
-              display={'flex'}
-              alignItems={'center'}
-              justifyContent={sideMenu ? 'space-between' : 'center'}
-            >
-              <Box width={sideMenu ? '100px' : { xxs: '50px', base: '120px' }}>
-                <img
-                  src={assets?.logo}
-                  alt='Logo'
-                  loading='lazy'
-                  width={'100%'}
-                  height={'100%'}
-                />
-              </Box>
-              <Box
-                sx={{ cursor: 'pointer' }}
+          <Box
+            display={'flex'}
+            width={{ xxs: '100px', base: '120px' }}
+            position={'absolute'}
+            left={!sideMenu ? '-300px' : '0'}
+            sx={{
+              transition: '0.4s',
+            }}
+            ml={sideMenu && '6px'}
+          >
+            <img
+              src={assets?.logo}
+              alt='Logo'
+              loading='lazy'
+              width={'100%'}
+              height={'100%'}
+            />
+          </Box>
+          <Box
+            color={'primary.main'}
+            sx={{ cursor: 'pointer' }}
+            display={{ xxs: 'block', base: 'none' }}
+            ml={sideMenu ? 'auto' : '0px'}
+          >
+            {sideMenu ? (
+              <KeyboardDoubleArrowLeftIcon
                 onClick={() => setSideMenu(false)}
-              >
-                <KeyboardDoubleArrowLeftIcon
-                  sx={{
-                    color: 'primary.main',
-                    height: '35px',
-                    width: '35px',
-                  }}
-                />
-              </Box>
-            </Box>
-          ) : (
-            <Box sx={{ cursor: 'pointer' }} onClick={() => setSideMenu(true)}>
+                sx={{
+                  height: '26px',
+                  width: '26px',
+                }}
+              />
+            ) : (
               <MenuIcon
+                onClick={() => setSideMenu(true)}
                 sx={{
                   color: 'primary.main',
-                  height: '35px',
-                  width: '35px',
+                  height: '26px',
+                  width: '26px',
                 }}
               />
-            </Box>
-          )}
-        </Box>
-
-        {/*Side menu Header For large screen  */}
-        <Box
-          py={'25px'}
-          width={'150px'}
-          display={{ xxs: 'none', base: 'flex' }}
-          justifyContent={'center'}
-          mx={'auto'}
-        >
-          <img
-            src={assets?.logo}
-            alt='Logo'
-            loading='lazy'
-            width={'100%'}
-            height={'100%'}
-          />
-        </Box>
-
-        {/*Side menu body For large screen  */}
-        <Box
-          display={{ xxs: 'none', base: 'flex' }}
-          flexDirection={'column'}
-          gap={2}
-        >
-          <Box
-            display={'flex'}
-            gap={1}
-            justifyContent={'start'}
-            paddingLeft={'20px'}
-            alignItems={'center'}
-            bgcolor={currentPath === '/users' && 'primary.main'}
-            sx={{ cursor: 'pointer' }}
-            onClick={() => navigate('/users')}
-          >
-            <Box>
-              <PersonIcon
-                sx={{
-                  color: currentPath === '/users' ? 'white' : 'primary.main',
-                  height: '30px',
-                  width: '30px',
-                }}
-              />
-            </Box>
-            <Typography
-              variant='base'
-              color={currentPath === '/users' ? 'white' : 'priamry.main'}
-            >
-              Users
-            </Typography>
-          </Box>
-
-          <Box
-            display={'flex'}
-            gap={1}
-            justifyContent={'start'}
-            paddingLeft={'20px'}
-            alignItems={'center'}
-            bgcolor={currentPath === '/chatroom' && 'primary.main'}
-            sx={{ cursor: 'pointer' }}
-            onClick={() => navigate('/chatroom')}
-          >
-            <Box>
-              <PersonIcon
-                sx={{
-                  color: currentPath === '/chatroom' ? 'white' : 'priamry.main',
-                  height: '30px',
-                  width: '30px',
-                }}
-              />
-            </Box>
-            <Typography
-              variant='base'
-              color={currentPath === '/chatroom' ? 'white' : 'priamry.main'}
-            >
-              Chat Room
-            </Typography>
+            )}
           </Box>
         </Box>
 
-        {/*Side menu body For mobile screen  */}
+        {/*Side menu body */}
         <Box
-          display={{ xxs: 'block', base: 'none' }}
+          display={'flex'}
           flexDirection={'column'}
-          gap={2}
+          gap={'8px'}
+          pr={sideMenu ? '8px' : '12px'}
+          pl={'12px'}
         >
-          {sideMenu ? (
+          {sideMenuRoutes.map(({ index, path, moduleName, icon }) => (
             <Box
+              key={index}
               display={'flex'}
-              gap={1}
-              justifyContent={'start'}
-              paddingLeft={'20px'}
               alignItems={'center'}
-              bgcolor={currentPath === '/users' && 'primary.main'}
-              sx={{ cursor: 'pointer' }}
-              onClick={() => navigate('/users')}
+              gap={1}
+              justifyContent={sideMenu ? 'start' : 'center'}
+              px={'7px'}
+              mx={!sideMenu && '7px'}
+              bgcolor={currentPath === path && 'primary.main'}
+              sx={{
+                cursor: 'pointer',
+                '&:hover': {
+                  backgroundColor: currentPath !== path && 'primary.halfWhite',
+                },
+              }}
+              py={'5px'}
+              onClick={() => navigate(path)}
+              borderRadius={'4px'}
             >
-              <Box>
-                <PersonIcon
-                  sx={{
-                    color: currentPath === '/users' ? 'white' : 'primary.main',
-                    height: '30px',
-                    width: '30px',
-                  }}
-                />
-              </Box>
-              <Typography
-                variant='base'
-                color={currentPath === '/users' ? 'white' : 'priamry.main'}
+              <Box
+                display={'flex'}
+                justifyContent={'center'}
+                alignItems={'center'}
+                color={currentPath === path ? 'white' : 'primary.main'}
+                pl={sideMenu && '7px'}
               >
-                Users
-              </Typography>
-            </Box>
-          ) : (
-            <Box
-              display={'flex'}
-              gap={1}
-              justifyContent={'start'}
-              paddingLeft={'20px'}
-              alignItems={'center'}
-              bgcolor={currentPath === '/users' && 'primary.main'}
-              sx={{ cursor: 'pointer' }}
-              onClick={() => navigate('/users')}
-            >
-              <Box>
-                <PersonIcon
-                  sx={{
-                    color: currentPath === '/users' ? 'white' : 'primary.main',
-                    height: '30px',
-                    width: '30px',
-                  }}
-                />
+                {icon}
               </Box>
-            </Box>
-          )}
-
-          {sideMenu ? (
-            <Box
-              display={'flex'}
-              gap={1}
-              justifyContent={'start'}
-              paddingLeft={'20px'}
-              alignItems={'center'}
-              bgcolor={currentPath === '/chatroom' && 'primary.main'}
-              sx={{ cursor: 'pointer' }}
-              onClick={() => navigate('/chatroom')}
-            >
-              <Box>
-                <PersonIcon
+              {sideMenu ? (
+                <Typography
+                  component={'p'}
+                  whiteSpace={'nowrap'}
+                  fontSize={'14px'}
+                  color={currentPath === path ? 'white' : 'black'}
+                  lineHeight={'12px'}
                   sx={{
-                    color:
-                      currentPath === '/chatroom' ? 'white' : 'priamry.main',
-                    height: '30px',
-                    width: '30px',
+                    '&:hover': {
+                      color: currentPath !== path && 'black',
+                    },
                   }}
-                />
-              </Box>
-              <Typography
-                variant='base'
-                color={currentPath === '/chatroom' ? 'white' : 'priamry.main'}
-              >
-                Chat Room
-              </Typography>
+                >
+                  {moduleName}
+                </Typography>
+              ) : null}
             </Box>
-          ) : (
-            <Box
-              display={'flex'}
-              gap={1}
-              justifyContent={'start'}
-              paddingLeft={'20px'}
-              alignItems={'center'}
-              bgcolor={currentPath === '/chatroom' && 'primary.main'}
-              sx={{ cursor: 'pointer' }}
-              onClick={() => navigate('/chatroom')}
-            >
-              <Box>
-                <PersonIcon
-                  sx={{
-                    color:
-                      currentPath === '/chatroom' ? 'white' : 'priamry.main',
-                    height: '30px',
-                    width: '30px',
-                  }}
-                />
-              </Box>
-            </Box>
-          )}
+          ))}
         </Box>
       </Box>
 
       <Box
         width={'100%'}
         height={'100%'}
-        px={'20px'}
-        display={'flex'}
-        alignItems={'center'}
-        justifyContent={'center'}
         bgcolor={'primary.lightGray'}
         overflow={'auto'}
+        pl={{ xxs: '92px', base: '12px' }}
       >
-        {children}
+        <Box
+          bgcolor={'white'}
+          height={'62px'}
+          borderRadius={'5px'}
+          display={'flex'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          px={'10px'}
+        >
+          <Typography
+            fontSize={{ xxs: '18px', md: '22px' }}
+            fontWeight={600}
+            color='primary.gray'
+          >
+            {currentPathName}
+          </Typography>
+          <Box
+            display={'flex'}
+            gap={1}
+            justifyContent={'center'}
+            alignItems={'center'}
+          >
+            <Box display={'flex'} flexDirection={'column'}>
+              <Typography fontSize={'14px'} component={'p'} color=''>
+                John Doe
+              </Typography>
+              <Typography
+                mt={'-5px'}
+                fontSize={'12px'}
+                fontWeight={400}
+                variant='base'
+                color='primary.darkGray'
+                alignSelf={'end'}
+              >
+                Admin
+              </Typography>
+            </Box>
+
+            <Avatar
+              alt='John Doe'
+              src='/static/images/avatar/1.jpg'
+              sx={{ width: 36, height: 36 }}
+            />
+          </Box>
+        </Box>
+        <Box>{children}</Box>
       </Box>
     </Box>
   );
